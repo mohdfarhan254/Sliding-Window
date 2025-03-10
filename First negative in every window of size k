@@ -1,0 +1,78 @@
+
+class Solution {
+
+    // Function to find the first negative integer in every window of size k
+    static List<Integer> FirstNegativeInteger(int arr[], int k) {
+        // write code here
+        /*
+        We use firstNegativeIndex to track the first negative element in the current window.
+        Sliding Window Mechanism:
+        If firstNegativeIndex is outside the window (firstNegativeIndex < j), move it to j.
+        Move firstNegativeIndex forward until we find a negative number.
+        If no negative number exists in the window, print 0.
+        Slide the window by moving j forward after processing each window.
+        */
+        int i=0;
+        int j=0;
+        int Index_Negative=0;
+        List<Integer> lst = new ArrayList<>();
+        while(i<arr.length){
+            
+            // Update firstNegativeIndex if it's outside the window
+            if(Index_Negative < j)
+               Index_Negative=j;
+               
+            while(Index_Negative <=i && Index_Negative<arr.length && arr[Index_Negative]>=0)
+               Index_Negative++;
+               
+            if(i-j+1 == k){
+                int check=(Index_Negative <= i && Index_Negative< arr.length) ? arr[Index_Negative] : 0 ;
+                lst.add(check);
+                j++;
+            }
+            i++;
+        }
+        return lst;
+    }
+}
+
+
+//{ Driver Code Starts.
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(br.readLine());
+        while (t-- > 0) {
+
+            String line = br.readLine();
+            String[] tokens = line.split(" ");
+
+            // Create an ArrayList to store the integers
+            ArrayList<Integer> array = new ArrayList<>();
+
+            // Parse the tokens into integers and add to the array
+            for (String token : tokens) {
+                array.add(Integer.parseInt(token));
+            }
+
+            int[] arr = new int[array.size()];
+            int idx = 0;
+            for (int i : array) arr[idx++] = i;
+
+            int k = Integer.parseInt(br.readLine());
+            // Create Solution object and find closest sum
+            Solution ob = new Solution();
+            List<Integer> ans = ob.FirstNegativeInteger(arr, k);
+
+            // Print the result as a space-separated string
+            for (int num : ans) {
+                System.out.print(num + " ");
+            }
+            System.out.println(); // New line after printing the results
+            System.out.println("~");
+        }
+    }
+}
+
+// } Driver Code Ends
