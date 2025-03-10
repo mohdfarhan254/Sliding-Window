@@ -1,0 +1,39 @@
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+    /*  Approach:
+   1. Use **Sliding Window** with two pointers (`l` and `r`).
+   2. Use a **HashMap** to track the last position of each character.
+   3. If a character repeats, move `l` to skip its previous occurrence.
+   4. Keep track of the max substring length.
+   5. update last occurence of the charcter
+
+    Complexity:
+   - **Time:** O(N) → Each character is processed at most twice.
+   - **Space:** O(1) → At most 128 entries (for ASCII characters).
+*/
+ 
+    int maxlen=0;
+    HashMap<Character,Integer> map=new HashMap<>();
+
+    int l=0;
+    int r=0;
+
+    while(r<s.length())
+    {
+        char ch=s.charAt(r);
+        // avoid moving backward example abba  l is in 2 ans a repeats
+        // itselt so no need to move to a+1 again 
+        // it will conatain repeated element as b repeat itself
+        if(map.containsKey(ch))
+        {    
+             l=Math.max(map.get(ch)+1,l);
+        }
+       int len =r-l+1;
+       maxlen=Math.max(maxlen,len);
+       map.put(ch,r);
+       r++;
+    }
+      
+      return maxlen;
+    }
+}
