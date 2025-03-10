@@ -1,0 +1,45 @@
+
+class Solution {
+    public int findSubString(String s) {
+        
+    /*
+       Explanation:
+       - We need to find the smallest substring that contains all distinct characters of the given string at least once.
+       - First, we determine the number of unique characters in the string.
+       - Then, we use a sliding window approach with two pointers (i and j).
+       - We expand the window by moving 'i' and contract it by moving 'j' to find the smallest valid window.
+    */
+
+        HashMap<Character,Integer> map = new HashMap<>();
+        for(char ch : s.toCharArray()){
+            map.put(ch,1);
+        }
+        int size=map.size();
+        map.clear();
+        int i=0;
+        int j=0;
+        int minLen=Integer.MAX_VALUE;
+       
+        while(i<s.length()){
+            char ch=s.charAt(i);
+            
+            map.put(ch,map.getOrDefault(ch,0)+1);
+            
+            while(map.size()==size){
+                int len=i-j+1;
+                if(len<minLen){
+                    minLen=len;
+                }
+                char chj=s.charAt(j);
+                map.put(chj,map.get(chj)-1);
+                
+                if(map.get(chj)==0)
+                  map.remove(chj);
+                  
+                  j++;
+            }
+            i++;
+        }
+        return minLen;
+    }
+}
