@@ -1,0 +1,36 @@
+
+class Solution {
+    public int maxLen(int[] arr) {
+        // Your code here
+        
+         /*
+       Explanation:
+       - The goal is to find the longest subarray with an equal number of 0s and 1s.
+       - We use a prefix sum approach where:
+         - Replace 0s with -1.
+         - Maintain a running sum (preSum).
+         - If preSum is seen before, it means the subarray between first occurrence and current index is balanced.
+       - Use a HashMap to store first occurrence of preSum.
+    */
+
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int i=0;
+        int preSum=0;
+        int maxLen=0;
+        while(i<arr.length){
+            preSum+=(arr[i]==0) ? -1 : 1;
+//   Since the subarray starts at index 0 and ends at i, its length is i + 1.  
+            if(preSum==0)
+             maxLen=i+1;
+             
+          if(map.containsKey(preSum)){
+              maxLen=Math.max(maxLen,i-map.get(preSum));
+          }
+        
+          map.putIfAbsent(preSum,i);
+          i++;
+        }
+        
+        return maxLen;
+    }
+}
