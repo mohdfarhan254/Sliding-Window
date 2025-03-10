@@ -1,0 +1,36 @@
+
+class Solution {
+    int longestSubarrayDivK(int[] arr, int k) {
+        // Complete the function
+/*  🔹 Approach:
+   1. Maintain a prefix sum and store its modulo k value in a HashMap.
+   2. If the remainder repeats, it means the subarray sum between those indices is divisible by k.
+   3. If sum % k == 0 at any index, update the max length.
+   4. Store the first occurrence of each remainder in the HashMap.
+   5. Use modular arithmetic to handle negative remainders.
+
+   🔹 Complexity Analysis:
+   - Time Complexity: **O(N)** → Single pass through the array.
+   - Space Complexity: **O(N)** → HashMap stores at most N entries.
+*/
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int i=0;
+        int maxLen=0;
+        int sum=0;
+        
+        while(i<arr.length){
+            
+            sum=((sum+arr[i])%k+k)%k;
+            
+            if(sum==0)
+              maxLen=i+1;
+              
+            if(map.containsKey(sum))
+              maxLen=Math.max(maxLen,i-map.get(sum));
+              
+            map.putIfAbsent(sum,i);
+            i++;
+        }
+        return maxLen;
+    }
+}
