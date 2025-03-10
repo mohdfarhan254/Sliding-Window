@@ -1,0 +1,32 @@
+ /*
+        Approach
+        Use a HashMap to store the frequency of elements in the current window.
+        Iterate through the array using two pointers (i and j):
+        Add arr[i] to the frequency map.
+        If the window size is exactly k, count distinct elements (map.size()).
+        Before sliding the window, remove arr[j] 
+        from the map if its count becomes zero.
+        Move j forward to maintain the window size.
+        Store the distinct count for each window in a list.
+        */
+        int i=0;
+        int j=0;
+        HashMap<Integer,Integer> map= new HashMap<>();
+        ArrayList<Integer> lst = new ArrayList<>();
+        while(i<arr.length){
+            
+            map.put(arr[i],map.getOrDefault(arr[i],0)+1);
+            
+            if(i-j+1==k){
+                
+                lst.add(map.size());
+                map.put(arr[j],map.get(arr[j])-1);
+                if(map.get(arr[j])==0)
+                  map.remove(arr[j]);
+                j++;
+            }
+            i++;
+        }
+        return lst;
+    }
+}
