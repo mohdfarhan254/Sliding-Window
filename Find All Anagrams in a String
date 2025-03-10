@@ -1,0 +1,37 @@
+class Solution {
+    public List<Integer> findAnagrams(String txt, String pat) {
+    
+    /*
+        Approach:
+        - Use frequency arrays to store the count of characters in the pattern and the current window.
+        - Iterate through the text using a sliding window of size equal to `pat.length()`.
+        - Compare frequency arrays to check if the current window is an anagram.
+        - Slide the window forward by adding a new character and removing the outgoing character.
+        - Store starting indices of matching windows in a list.
+    */
+       ArrayList<Integer> res= new ArrayList<>();
+        int patFreq[]= new int[26];
+        int txtFreq[]= new int[26];
+        
+        for(int i=0;i<pat.length();i++){
+            patFreq[pat.charAt(i)-'a']++;
+        }
+        
+        int i=0;
+        while(i<txt.length()){
+            char ch=txt.charAt(i);
+            
+            txtFreq[ch-'a']++;
+     // Remove character that is out of the window (i - m)   
+            if(i>=pat.length()){
+                txtFreq[txt.charAt(i-pat.length())-'a']--;
+            }
+            
+            if(Arrays.equals(patFreq,txtFreq))
+              res.add(i-pat.length()+1);
+            
+            i++;
+        }
+        return res;
+    }
+}
