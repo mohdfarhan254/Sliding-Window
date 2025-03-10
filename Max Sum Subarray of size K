@@ -1,0 +1,36 @@
+
+class Solution {
+    public int maximumSumSubarray(int[] arr, int k) {
+        // Code here
+        /*
+        Initialize:
+
+        omax stores the maximum sum found.
+        sum keeps track of the current window sum.
+        i (right pointer) expands the window, and j (left pointer)
+        shrinks it when needed.
+        Iterate through the array:
+
+        Add arr[i] to sum (expanding window).
+        If the window size exceeds k, subtract arr[j] and move j 
+        (shrinking window).
+        Update omax with the maximum sum found so far.
+        */
+        int omax=0;
+        int sum=0;
+        int i=0;
+        int j=0;
+        
+        while(i<arr.length){
+            
+            sum+=arr[i];
+            if(i-j+1 > k ){
+                sum-=arr[j];
+                j++;
+            }
+            omax=Math.max(sum,omax);
+            i++;
+        }
+        return omax;
+    }
+}
