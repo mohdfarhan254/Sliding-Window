@@ -1,0 +1,48 @@
+
+class Solution {
+    public int longestkSubstr(String s, int k) {
+        // code here
+        /*
+        1️⃣ Initialize Variables
+           i = 0, j = 0: Two pointers for the sliding window.
+           maxLen = -1: Stores the maximum length of a valid substring.
+           map = new HashMap<>(): Keeps track of character counts.
+       
+        2️⃣ Expand the Window (i moves right)
+           Read s.charAt(i), increase its count in map.
+        
+        3️⃣ Shrink the Window, If map.size() > k
+            decreasing j count from map,
+            If count becomes 0, remove the character from map.
+       
+        4️⃣ Update Maximum Length
+           If map.size() == k, calculate the window size i - j + 1 and update maxLen.
+        */
+        int i=0;
+        int j=0;
+        int maxLen=-1;
+        HashMap<Character,Integer> map = new HashMap<>();
+        
+        while(i<s.length()){
+            
+            char ch=s.charAt(i);
+            
+            map.put(ch,map.getOrDefault(ch,0)+1);
+            
+            while(map.size() > k){
+                char chj=s.charAt(j);
+                map.put(chj,map.get(chj)-1);
+                if(map.get(chj)==0)
+                 map.remove(chj);
+                
+                j++;
+            }
+            
+            if(map.size()==k)
+             maxLen=Math.max(maxLen,i-j+1);
+            
+            i++;
+        }
+        return maxLen;
+    }
+}
